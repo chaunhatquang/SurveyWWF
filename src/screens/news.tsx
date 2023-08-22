@@ -82,7 +82,7 @@ const NewScreen = ({ route }: { route: any }) => {
         return <ActivityIndicator size={'small'} color={'red'} />
     } else if (surveys.length === 0) {
         // Render the new survey form component
-        return <ComponentAddNewSurvey user = {userInfo} />;
+        return <ComponentAddNewSurvey user={userInfo} />;
     } else if (userInfo && userHasCompletedSurvey && userCitizenIdentity) {
         Toast.show("Bạn đã khảo sát rồi.Vui lòng xem lại thông tin khảo sát");
         const userSurvey = surveys.find((survey) => survey.username === userCitizenIdentity.idNumber);
@@ -103,15 +103,18 @@ const NewScreen = ({ route }: { route: any }) => {
             thienploairackhac,
             ttindiemthugomkhac,
             vieccanlamkhac,
-            hdongkhac
+            hdongkhac,
+            sdt
         } = userSurvey;
-        
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView>
                     <View style={{ marginHorizontal: 12 }}>
                         <FastImage source={{ uri: 'https://quang.bf.edu.vn/ImageUpload/SurveyWWF/khaosatlogo.png' }} resizeMode="contain" style={{ height: 100 }} />
                         <Text style={{ textAlign: 'center', fontWeight: '700', fontSize: 18 }}>Thông tin bạn đã khảo sát</Text>
+                        <Text style={{ textAlign: 'justify', marginVertical: 5 }}>Số điện thoại</Text>
+                        {sdt !== "" && <InputCustom editable={false} value={sdt} handleInputChange={() => null} />}
                         <Text style={{ textAlign: 'justify', marginVertical: 5 }}>Giới tính</Text>
                         <DynamicPicker label="Giới tính" showLabel={false} placeholder={tengioitinh} endpointsParams={null} value={tengioitinh} onChangeValue={(item) => {
                             const idGender = item?.id.toString();

@@ -185,6 +185,17 @@ const ComponentAddNewSurvey = (user: any) => {
         return citizenIdNumber;
     }
 
+    function getPhone() {
+        let phoneNumber = null;
+        if (user !== null && user.user !== null && user.user.identityPapers !== null) {
+            phoneNumber = user.user.phone;
+        }
+
+        return phoneNumber;
+    }
+
+    const tempPhone = getPhone();
+    
     function getAddress() {
         let address = null;
 
@@ -206,7 +217,6 @@ const ComponentAddNewSurvey = (user: any) => {
         wardName = address.wardName;
         districtId = address.districtId;
         wardId = address.wardId;
-        console.log("districtId",districtId);
     }
 
     const handlerSendSurvey = async () => {
@@ -217,10 +227,12 @@ const ComponentAddNewSurvey = (user: any) => {
         }
         const formData = new FormData();
         const CCCD = getCitizenIdNumber();
+        const phone = getPhone();
 
         formData.append("serviceid", "2NiCAit3gHQRzTHh3wl11A==");
         formData.append("eformid", 0);
         formData.append("username", CCCD);
+        formData.append("sdt", phone);
         formData.append("hovaten", user.user.name);
         formData.append("dotuoi", oldRange);
         formData.append("gioitinh", gender);
@@ -291,9 +303,9 @@ const ComponentAddNewSurvey = (user: any) => {
                             checked={checkCCCD}
                             onPress={() => setCheckCCCD(!checkCCCD)}
                         />
-                        <Text style={{ width: "80%", marginVertical: 10 }}>Trường hợp Ông/ Bà muốn tham gia chương trình quay thưởng vui lòng cung cấp thêm thông tin CCCD.</Text>
+                        <Text style={{ width: "80%", marginVertical: 10 }}>Trường hợp Ông/ Bà muốn tham gia chương trình quay thưởng vui lòng cung cấp thêm thông tin số điện thoại.</Text>
                     </View>
-                    {checkCCCD && <InputCustom editable={false} placeholder="Nhập CCCD" value={getCitizenIdNumber()} handleInputChange={(value) => { }} />}
+                    {checkCCCD && <InputCustom editable={false} placeholder="Số điện thoại" value={tempPhone} handleInputChange={(value) => {}} />}
                     <DynamicPicker placeholder="Giới tính" endpointsParams={paramGender} label={"tengioitinh"} value={"magioitinh"} onChangeValue={(item) => {
                         const idGender = item?.magioitinh;
                         setGender(idGender);
