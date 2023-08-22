@@ -284,7 +284,7 @@ const ComponentAddNewSurvey = (user: any) => {
 
         if (code === 0) {
             Toast.show("Gửi khảo sát thành công!");
-            // navigation.goBack();
+            navigation.goBack();
 
         } else {
             Toast.show(`Gửi khảo sát thất bại! ${message}`);
