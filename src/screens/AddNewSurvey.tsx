@@ -16,9 +16,11 @@ import { useNavigation } from "@react-navigation/native";
 const BASE_URL = config.BASE_URL;
 
 const ComponentAddNewSurvey = (user: any) => {
+
     if (user === null) {
         return <ActivityIndicator size={'small'} color={'red'} />
     }
+
     const [gender, setGender] = useState("");
     const [district, setDistrict] = useState("");
     const [ward, setWard] = useState<IPhuongXa[]>([]);
@@ -49,9 +51,12 @@ const ComponentAddNewSurvey = (user: any) => {
     const [placeHolderWard, setPlaceHolderWard] = useState("");
     // const [userInfo, setUserInfo] = useState<IThongTinTaiKhoanVneID | null>(null);
     const navigation = useNavigation<any>();
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     useEffect(() => {
         setLoading(true);
+        const initialPhoneNumber = getPhone();
+        setPhoneNumber(initialPhoneNumber);
         const fetchAllQuestions = async () => {
             await Promise
                 .all([
@@ -185,17 +190,6 @@ const ComponentAddNewSurvey = (user: any) => {
         return citizenIdNumber;
     }
 
-    function getPhone() {
-        let phoneNumber = null;
-        if (user !== null && user.user !== null && user.user.identityPapers !== null) {
-            phoneNumber = user.user.phone;
-        }
-
-        return phoneNumber;
-    }
-
-    const tempPhone = getPhone();
-    
     function getAddress() {
         let address = null;
 
@@ -206,6 +200,16 @@ const ComponentAddNewSurvey = (user: any) => {
 
         return address;
     }
+
+    function getPhone() {
+        let phoneNumber = null;
+        if (user !== null && user.user !== null && user.user.identityPapers !== null) {
+            phoneNumber = user.user.phone;
+        }
+
+        return phoneNumber;
+    }
+
 
     const address = getAddress();
     let districtName = "";
@@ -232,7 +236,7 @@ const ComponentAddNewSurvey = (user: any) => {
         formData.append("serviceid", "2NiCAit3gHQRzTHh3wl11A==");
         formData.append("eformid", 0);
         formData.append("username", CCCD);
-        formData.append("sdt", phone);
+        formData.append("sdt", phoneNumber);
         formData.append("hovaten", user.user.name);
         formData.append("dotuoi", oldRange);
         formData.append("gioitinh", gender);
@@ -301,11 +305,15 @@ const ComponentAddNewSurvey = (user: any) => {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <CheckBox
                             checked={checkCCCD}
-                            onPress={() => setCheckCCCD(!checkCCCD)}
+                            onPress={() => {
+                                setCheckCCCD(!checkCCCD);
+                                const tempPhone = getPhone();
+                                setPhoneNumber(tempPhone);
+                            }}
                         />
                         <Text style={{ width: "80%", marginVertical: 10 }}>Trường hợp Ông/ Bà muốn tham gia chương trình quay thưởng vui lòng cung cấp thêm thông tin số điện thoại.</Text>
                     </View>
-                    {checkCCCD && <InputCustom editable={false} placeholder="Số điện thoại" value={tempPhone} handleInputChange={(value) => {}} />}
+                    {checkCCCD && <InputCustom editable={true} placeholder="Số điện thoại" value={phoneNumber} handleInputChange={(value) => setPhoneNumber(value)} />}
                     <DynamicPicker placeholder="Giới tính" endpointsParams={paramGender} label={"tengioitinh"} value={"magioitinh"} onChangeValue={(item) => {
                         const idGender = item?.magioitinh;
                         setGender(idGender);
