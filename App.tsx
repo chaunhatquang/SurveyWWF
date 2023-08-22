@@ -9,6 +9,7 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import StackNavigator from './src/common/Navigation/StackNavigator';
 import { UserContext, UserProvider } from './src/context/UserContext';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -21,13 +22,15 @@ const MyTheme = {
 
 function App(props: any): JSX.Element {
   const HueSToken = props.accountToken;
- 
+
   return (
-    <UserProvider token={HueSToken}>
-      <NavigationContainer theme={MyTheme}>
-        <StackNavigator token={HueSToken} />
-      </NavigationContainer>
-    </UserProvider>
+    <RootSiblingParent>
+      <UserProvider token={HueSToken}>
+        <NavigationContainer theme={MyTheme}>
+          <StackNavigator token={HueSToken} />
+        </NavigationContainer>
+      </UserProvider>
+    </RootSiblingParent>
   );
 }
 

@@ -108,7 +108,7 @@ const NewScreen = ({ route }: { route: any }) => {
         } = userSurvey;
 
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }} >
                 <ScrollView>
                     <View style={{ marginHorizontal: 12 }}>
                         <FastImage source={{ uri: 'https://quang.bf.edu.vn/ImageUpload/SurveyWWF/khaosatlogo.png' }} resizeMode="contain" style={{ height: 100 }} />
@@ -219,7 +219,7 @@ const NewScreen = ({ route }: { route: any }) => {
                     <Button onPress={handlerSendSurvey} buttonStyle={{ borderRadius: 8 }} style={{ width: '35%' }}>Gửi khảo sát</Button>
                 </View> */}
                 </ScrollView>
-            </SafeAreaView>
+            </SafeAreaView >
         )
     } else if (userInfo) {
         // Render the new survey form component

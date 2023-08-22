@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { IPhuongXa, IThongTinTaiKhoanVneID } from "../../define";
-import { fetchData, fetchPhuongXa, fetchThongTinTaiKhoanVNeID, updateData } from "../services/apis";
+import { IPhuongXa } from "../../define";
+import { fetchData, fetchPhuongXa, updateData } from "../services/apis";
 import config from '../Config/config.json';
 import { paramDistrict, paramGender, paramsConfirm, paramsJob, paramsOldRange, paramsQuestionOne, paramsRabbitPoint, paramsRabbitType, paramsSocialNetWork, paramsSuggestResult, paramsSurveys } from "../params";
 import Toast from "react-native-root-toast";
-import { ActivityIndicator, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { Button, CheckBox } from "@rneui/themed";
 import InputCustom from "../common/InputCustom";
 import DynamicPicker, { styles } from "../common/MultiPicker";
 import FastImage from "react-native-fast-image";
-import DatePicker from "react-native-date-picker";
 import { Dropdown } from "react-native-element-dropdown";
 import { useNavigation } from "@react-navigation/native";
 
@@ -175,6 +174,8 @@ const ComponentAddNewSurvey = (user: any) => {
         }
     };
 
+    const [disable, setDisable] = useState(false);
+
     function getCitizenIdNumber() {
         let citizenIdNumber = null;
 
@@ -224,7 +225,6 @@ const ComponentAddNewSurvey = (user: any) => {
     }
 
     const handlerSendSurvey = async () => {
-
         if (job === "" || questionOne === "" || socialNetWork.length === 0 || rabbitPoint === "" || rabbitType.length === 0 || suggestResult.length === 0 || confirm.length === 0 || oldRange === "") {
             Toast.show("Vui lòng nhập đầy đủ thông tin");
             return;
@@ -278,10 +278,11 @@ const ComponentAddNewSurvey = (user: any) => {
             formData.append("hdongkhac", confirmAnother);
         }
         formData.append("hoatdonggiamracthai", selectedConfirm.toString());
-
+        setDisable(true);
         const res: any = await updateData(BASE_URL, formData);
         const { code, message, data } = res;
-        if (res && code === 0) {
+
+        if (code === 0) {
             Toast.show("Gửi khảo sát thành công!");
             // navigation.goBack();
 
@@ -436,7 +437,7 @@ const ComponentAddNewSurvey = (user: any) => {
                     {isCheckbox10SelectedConfirm && <InputCustom placeholder={"Nhập ý kiến khác"} value={confirmAnother} handleInputChange={(value) => setConfirmAnother(value)} />}
                 </View>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Button onPress={handlerSendSurvey} buttonStyle={{ borderRadius: 8 }} style={{ width: '35%' }}>Gửi khảo sát</Button>
+                    <Button disabled={disable} onPress={handlerSendSurvey} buttonStyle={{ borderRadius: 8 }} style={{ width: '35%' }}>Gửi khảo sát</Button>
                 </View>
             </ScrollView>
         </SafeAreaView>
