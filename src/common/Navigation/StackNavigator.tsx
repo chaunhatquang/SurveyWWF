@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import NewScreen from "../../screens/news";
+import HuesReactNativeModule from 'hues-react-native-module';
 
 const Stack = createStackNavigator();
 
@@ -13,7 +14,7 @@ function StackNavigator(token: any) {
             navigation.goBack();
         } else {
             // Alert.alert('Không có màn hình trước đó,quay lại Hue-S');
-            // HuesReactNativeModule.goBack();
+            HuesReactNativeModule.goBack();
         }
     }
 

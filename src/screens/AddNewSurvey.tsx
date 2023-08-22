@@ -11,6 +11,7 @@ import DynamicPicker, { styles } from "../common/MultiPicker";
 import FastImage from "react-native-fast-image";
 import DatePicker from "react-native-date-picker";
 import { Dropdown } from "react-native-element-dropdown";
+import { useNavigation } from "@react-navigation/native";
 
 const BASE_URL = config.BASE_URL;
 
@@ -47,6 +48,7 @@ const ComponentAddNewSurvey = (user: any) => {
     const [placeHolderDistrict, setPlaceHolderDistrict] = useState("");
     const [placeHolderWard, setPlaceHolderWard] = useState("");
     const [userInfo, setUserInfo] = useState<IThongTinTaiKhoanVneID | null>(null);
+    const navigation = useNavigation<any>();
 
     useEffect(() => {
         setLoading(true);
@@ -252,9 +254,10 @@ const ComponentAddNewSurvey = (user: any) => {
 
         const res: any = await updateData(BASE_URL, formData);
         const { code, message, data } = res;
-        console.log("res", res);
         if (res && code === 0) {
             Toast.show("Gửi khảo sát thành công!");
+            navigation.goBack();
+            
         } else {
             Toast.show(`Gửi khảo sát thất bại! ${message}`);
         }
