@@ -20,7 +20,7 @@ const ComponentAddNewSurvey = (user: any) => {
         return <ActivityIndicator size={'small'} color={'red'} />
     }
     const [gender, setGender] = useState("");
-    const [district, setDistrict] = useState('"');
+    const [district, setDistrict] = useState("");
     const [ward, setWard] = useState<IPhuongXa[]>([]);
     const [wardValue, setWardValue] = useState("");
     const [isFocus, setIsFocus] = useState(false);
@@ -47,7 +47,7 @@ const ComponentAddNewSurvey = (user: any) => {
     const [hasSurvey, setHasSurvey] = useState(false);
     const [placeHolderDistrict, setPlaceHolderDistrict] = useState("");
     const [placeHolderWard, setPlaceHolderWard] = useState("");
-    const [userInfo, setUserInfo] = useState<IThongTinTaiKhoanVneID | null>(null);
+    // const [userInfo, setUserInfo] = useState<IThongTinTaiKhoanVneID | null>(null);
     const navigation = useNavigation<any>();
 
     useEffect(() => {
@@ -197,10 +197,21 @@ const ComponentAddNewSurvey = (user: any) => {
     }
 
     const address = getAddress();
+    let districtName = "";
+    let wardName = "";
+    let districtId = "";
+    let wardId = "";
+    if (address !== null) {
+        districtName = address.districtName;
+        wardName = address.wardName;
+        districtId = address.districtId;
+        wardId = address.wardId;
+        console.log("districtId",districtId);
+    }
 
     const handlerSendSurvey = async () => {
-        
-        if (district === "" || wardValue === "" || job === "" || questionOne === "" || socialNetWork.length === 0 || rabbitPoint === "" || rabbitType.length === 0 || suggestResult.length === 0 || confirm.length === 0 || oldRange === "") {
+
+        if (job === "" || questionOne === "" || socialNetWork.length === 0 || rabbitPoint === "" || rabbitType.length === 0 || suggestResult.length === 0 || confirm.length === 0 || oldRange === "") {
             Toast.show("Vui lòng nhập đầy đủ thông tin");
             return;
         }
@@ -213,8 +224,8 @@ const ComponentAddNewSurvey = (user: any) => {
         formData.append("hovaten", user.user.name);
         formData.append("dotuoi", oldRange);
         formData.append("gioitinh", gender);
-        formData.append("maquanhuyen", district);
-        formData.append("maxaphuong", wardValue);
+        formData.append("maquanhuyen", district === "" ? districtId : district);
+        formData.append("maxaphuong", wardValue === "" ? wardId : wardValue);
         formData.append("nghenghiephientai", job);
         formData.append("dakhaosat", "True");
         if (questionOneAnother !== "") {
@@ -256,8 +267,8 @@ const ComponentAddNewSurvey = (user: any) => {
         const { code, message, data } = res;
         if (res && code === 0) {
             Toast.show("Gửi khảo sát thành công!");
-            navigation.goBack();
-            
+            // navigation.goBack();
+
         } else {
             Toast.show(`Gửi khảo sát thất bại! ${message}`);
         }
@@ -291,7 +302,7 @@ const ComponentAddNewSurvey = (user: any) => {
                         const idOld = item?.id.toString();
                         setOldRange(idOld);
                     }} edit={false} labelButton={""} handlePressButton={() => null} show={false} />
-                    <DynamicPicker placeholder={"Quận/huyện"} endpointsParams={paramDistrict} label={"tenquanhuyen"} value={"maquanhuyen"} onChangeValue={(item) => {
+                    <DynamicPicker placeholder={districtName} endpointsParams={paramDistrict} label={"tenquanhuyen"} value={"maquanhuyen"} onChangeValue={(item) => {
                         const idDistrict = item?.maquanhuyen;
                         setDistrict(idDistrict);
                     }} edit={false} labelButton={""} handlePressButton={() => null} show={false} />
@@ -308,7 +319,7 @@ const ComponentAddNewSurvey = (user: any) => {
                             // disable={edit}
                             labelField={"tenphuongxa"}
                             valueField={"maphuongxa"}
-                            placeholder={"Phường/xã"}
+                            placeholder={wardName}
                             searchPlaceholder="Tìm..."
                             value={""}
                             onFocus={() => setIsFocus(true)}
