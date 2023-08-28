@@ -10,7 +10,7 @@ const headers = {
 export const SoHoaClient = axios.create({
     baseURL: config.BASE_URL,
     headers: headers,
-    timeout: 10000 //10s
+    // timeout: 30000 //10s
 })
 
 export const VNeIDClient = axios.create({

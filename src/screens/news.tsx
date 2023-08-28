@@ -15,6 +15,7 @@ const BASE_URL = config.BASE_URL;
 
 const NewScreen = ({ route }: { route: any }) => {
     const token = route.params.token.token;
+    console.log("token",token);
     const [socialNetWorkAnother, setSocialNetWorkAnother] = useState("");
     const [rabbitTypeAnother, setRabbitTypeAnother] = useState("");
     const [rabbitPoint, setRabbitPoint] = useState("");
@@ -77,6 +78,8 @@ const NewScreen = ({ route }: { route: any }) => {
             )
         );
     });
+
+    console.log("userSurvey",surveys);
 
     if (loading) {
         return <ActivityIndicator size={'small'} color={'red'} />

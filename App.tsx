@@ -6,9 +6,9 @@
  */
 
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import React from 'react';
 import StackNavigator from './src/common/Navigation/StackNavigator';
-import { UserContext, UserProvider } from './src/context/UserContext';
+import { UserProvider } from './src/context/UserContext';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
 const MyTheme = {
