@@ -116,7 +116,7 @@ export const paramsSurveys = {
         "hoatdonggiamracthai": "0"
     },
     "page": "1",
-    "perpage": "500"
+    "perpage": "5000"
 }
 
 

@@ -14,7 +14,7 @@ function StackNavigator(token: any) {
             navigation.goBack();
         } else {
             // Alert.alert('Không có màn hình trước đó,quay lại Hue-S');
-            HuesReactNativeModule.goBack();
+            // HuesReactNativeModule.goBack();
         }
     }
 
