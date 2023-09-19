@@ -11,6 +11,7 @@ import DynamicPicker, { styles } from "../common/MultiPicker";
 import FastImage from "react-native-fast-image";
 import { Dropdown } from "react-native-element-dropdown";
 import { useNavigation } from "@react-navigation/native";
+import HuesReactNativeModule from 'hues-react-native-module';
 
 const BASE_URL = config.BASE_URL;
 
@@ -284,7 +285,12 @@ const ComponentAddNewSurvey = (user: any) => {
 
         if (code === 0) {
             Toast.show("Gửi khảo sát thành công!");
-            navigation.goBack();
+            if (navigation.canGoBack()) {
+                navigation.goBack();
+            } else {
+                // Alert.alert('Không có màn hình trước đó,quay lại Hue-S');
+                // HuesReactNativeModule.goBack();
+            }
 
         } else {
             Toast.show(`Gửi khảo sát thất bại! ${message}`);
